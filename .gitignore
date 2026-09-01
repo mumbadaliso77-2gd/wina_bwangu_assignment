@@ -1,0 +1,14 @@
+# Visual Studio Code settings
+.vscode/
+
+# Visual Studio / IDE settings
+.vs/
+*.user
+
+# Operating system junk files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies (keep out of Git!)
+node_modules/
+*.log

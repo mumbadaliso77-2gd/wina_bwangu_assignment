@@ -487,6 +487,66 @@ footer {
     font-size: 14px;
     opacity: 0.8;
 }
+/* Contact Footer Styles */
+        .contact-footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+            border-radius: 15px;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-column h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .contact-column p,
+        .contact-column a {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+
+        .contact-column a:hover {
+            color: #4CAF50;
+        }
+
+        .contact-column .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .contact-column .social-icons a {
+            font-size: 24px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+
+        .contact-column .social-icons a:hover {
+            color: #4CAF50;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
 
 /* Animations */
 @keyframes fadeInUp {
@@ -551,115 +611,5 @@ footer {
     
     .stat-number {
         font-size: 28px;
-    }
-}
-/* Additional styles for Dashboard and Admin pages */
-
-.dashboard-page {
-    min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
-                url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    padding: 120px 20px 50px;
-    position: relative;
-}
-
-.dashboard-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.dashboard-container,
-.admin-container {
-    position: relative;
-    z-index: 1;
-}
-
-/* Form styles */
-.form-group input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-.form-group input[type="number"]::-webkit-outer-spin-button,
-.form-group input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #4CAF50;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #45a049;
-}
-
-/* Admin page specific */
-.admin-card {
-    transition: all 0.3s ease;
-}
-
-.admin-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.1);
-}
-
-/* Responsive fixes */
-@media (max-width: 768px) {
-    .dashboard-page {
-        padding: 100px 10px 30px;
-    }
-    
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .admin-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .cumulative-section {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .transaction-history table {
-        font-size: 11px;
-    }
-    
-    .transaction-history th,
-    .transaction-history td {
-        padding: 6px 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .cumulative-section {
-        grid-template-columns: 1fr;
     }
 }

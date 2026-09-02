@@ -1,19 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Wina Bwangu</title>
+    <title>Get started - Wina Bwangu</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Additional Dashboard Styles */
+        /* Dashboard Styles */
         .dashboard-container {
-            max-width: 1400px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        .dashboard-page {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 120px 20px 50px;
+            position: relative;
+        }
+
+        .dashboard-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-container h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+
+        /* Transaction Form */
         .transaction-form {
             background: rgba(255,255,255,0.1);
             padding: 30px;
@@ -27,11 +59,12 @@
             color: #4CAF50;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 24px;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
@@ -40,10 +73,15 @@
             flex-direction: column;
         }
 
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
         .form-group label {
             color: #fff;
             margin-bottom: 5px;
             font-weight: 600;
+            font-size: 14px;
         }
 
         .form-group input,
@@ -68,6 +106,12 @@
             color: rgba(255,255,255,0.5);
         }
 
+        .form-group input:disabled,
+        .form-group input[readonly] {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .form-group select option {
             background: #1a1a2e;
             color: #fff;
@@ -76,14 +120,15 @@
         .btn-submit {
             background: #4CAF50;
             color: #000;
-            padding: 12px 40px;
+            padding: 14px 50px;
             border: none;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 16px;
+            width: 100%;
         }
 
         .btn-submit:hover {
@@ -92,23 +137,26 @@
             box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
         }
 
+        /* Result Display */
         .result-display {
             background: rgba(255,255,255,0.05);
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
             border: 1px solid rgba(76, 175, 80, 0.1);
+            display: none;
         }
 
         .result-display h3 {
             color: #4CAF50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         .result-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -121,149 +169,97 @@
             color: #4CAF50;
         }
 
-        .performance-bars {
-            margin-top: 30px;
+        /* Contact Footer Styles */
+        .contact-footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+            border-radius: 15px;
         }
 
-        .bar-container {
-            margin: 10px 0;
-        }
-
-        .bar-label {
-            display: flex;
-            justify-content: space-between;
-            color: #fff;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .bar-track {
-            width: 100%;
-            height: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 1s ease;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-        }
-
-        .bar-fill.warning {
-            background: linear-gradient(90deg, #FF9800, #FFC107);
-        }
-
-        .bar-fill.danger {
-            background: linear-gradient(90deg, #f44336, #FF5722);
-        }
-
-        .cumulative-section {
-            margin-top: 30px;
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
         }
 
-        .cumulative-card {
-            background: rgba(255,255,255,0.08);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(76, 175, 80, 0.1);
-        }
-
-        .cumulative-card h4 {
-            color: #4CAF50;
-            margin-bottom: 5px;
-        }
-
-        .cumulative-card .amount {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .cumulative-card .remaining {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .cumulative-card .remaining.positive {
-            color: #4CAF50;
-        }
-
-        .cumulative-card .remaining.negative {
-            color: #f44336;
-        }
-
-        .transaction-history {
-            margin-top: 30px;
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .transaction-history h3 {
+        .contact-column h3 {
             color: #4CAF50;
             margin-bottom: 15px;
+            font-size: 18px;
         }
 
-        .transaction-history table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #fff;
+        .contact-column p,
+        .contact-column a {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
             font-size: 14px;
         }
 
-        .transaction-history th {
-            background: rgba(76, 175, 80, 0.2);
-            padding: 12px;
-            text-align: left;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+        .contact-column a:hover {
+            color: #4CAF50;
         }
 
-        .transaction-history td {
-            padding: 10px 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .contact-column .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
         }
 
-        .transaction-history tr:hover {
-            background: rgba(255,255,255,0.05);
+        .contact-column .social-icons a {
+            font-size: 24px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
         }
 
-        .transaction-history::-webkit-scrollbar {
-            width: 8px;
+        .contact-column .social-icons a:hover {
+            color: #4CAF50;
+            transform: translateY(-3px);
         }
 
-        .transaction-history::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
         }
 
-        .transaction-history::-webkit-scrollbar-thumb {
-            background: #4CAF50;
-            border-radius: 10px;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            .cumulative-section {
-                grid-template-columns: 1fr 1fr;
+            
+            .dashboard-container {
+                padding: 10px;
             }
-            .transaction-history table {
-                font-size: 12px;
+            
+            .dashboard-container h1 {
+                font-size: 28px;
             }
-            .transaction-history th,
-            .transaction-history td {
-                padding: 8px;
+            
+            .transaction-form {
+                padding: 20px;
+            }
+            
+            .btn-submit {
+                padding: 12px 30px;
+                font-size: 14px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-column .social-icons {
+                justify-content: center;
             }
         }
     </style>
@@ -278,8 +274,8 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                <li><a href="admin.html">Admin</a></li>
+                <li><a href="dashboard.html" class="active">Get Started</a></li>
+                
             </ul>
         </div>
     </nav>
@@ -331,35 +327,47 @@
                 </div>
                 <button class="btn-submit" onclick="calculateTransaction()">Process Transaction</button>
 
-                <div id="transactionResult" class="result-display" style="display:none;">
+                <div id="transactionResult" class="result-display">
                     <h3>Transaction Summary</h3>
                     <div id="resultDetails"></div>
                 </div>
             </div>
 
-            <!-- Tax Performance Bars -->
-            <div class="performance-bars">
-                <h2 style="color:#4CAF50; margin-bottom:20px;"> Tax Performance</h2>
-                <div id="taxBars"></div>
-            </div>
-
-            <!-- Cumulative Totals -->
-            <div class="cumulative-section" id="cumulativeTotals">
-                <h2 style="color:#4CAF50; grid-column: 1/-1; text-align:center; margin-bottom:10px;"> Cumulative Totals & Remaining Limits</h2>
-                <div id="cumulativeCards"></div>
-            </div>
-
-            <!-- Transaction History -->
-            <div class="transaction-history" id="transactionHistory">
-                <h3> Recent Transactions</h3>
-                <div id="historyTable"></div>
-            </div>
+            <!-- Contact Footer -->
+            <footer class="contact-footer">
+                <div class="contact-container">
+                    <div class="contact-column">
+                        <h3> Wina Bwangu</h3>
+                        <p>Leading  company providing mobile money transfer services across Lusaka District.</p>
+                    </div>
+                    <div class="contact-column">
+                        <h3> Contact Us</h3>
+                        <p> +260 97 1234567</p>
+                        <p>info@winabwangu.co.zm</p>
+                        <p> Lusaka, Zambia</p>
+                    </div>
+                    <div class="contact-column">
+                        <h3> Working Hours</h3>
+                        <p>Open 24/7</p>
+                        
+        
+                    </div>
+                    <div class="contact-column">
+                        <h3> Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" title="Facebook">Facebook</a>
+                            <a href="#" title="Twitter">Twitter</a>
+                            <a href="#" title="Instagram">Instagram</a>
+                            <a href="#" title="LinkedIn">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Wina Bwangu Online Booth. All rights reserved.   Created by Group 9</p>
+                </div>
+            </footer>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 Wina Bwangu Online Booth. All rights reserved.</p>
-    </footer>
 
     <script>
         // Data Definitions
@@ -406,12 +414,12 @@
         };
 
         // Transaction counter
-        let transactionCounter = 308;
+        let transactionCounter = 20;
 
         // Store transactions
         let transactions = [];
 
-        // Initialize with sample data from Appendix
+        // Initialize with sample data
         function initializeTransactions() {
             const sampleData = [
                 {id: 'WB0000001', booth: 'Wina1', service: 'Airtel Money', amount: 964},
@@ -457,10 +465,6 @@
             initializeTransactions();
             document.getElementById('transactionId').value = generateTransactionId();
             updateBoothServices();
-            updateDisplay();
-            updateCumulativeTotals();
-            updateTaxBars();
-            updateTransactionHistory();
         });
 
         // Update services based on booth selection
@@ -563,128 +567,8 @@
             document.getElementById('transactionId').value = generateTransactionId();
             document.getElementById('transactionAmount').value = '';
 
-            // Update all displays
-            updateDisplay();
-            updateCumulativeTotals();
-            updateTaxBars();
-            updateTransactionHistory();
-
             // Scroll to result
             resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        // Update cumulative totals
-        function updateCumulativeTotals() {
-            const container = document.getElementById('cumulativeCards');
-            let html = '';
-
-            Object.keys(serviceLimits).forEach(service => {
-                const total = transactions
-                    .filter(t => t.service === service)
-                    .reduce((sum, t) => sum + t.amount, 0);
-                const limit = serviceLimits[service];
-                const remaining = limit - total;
-                const isPositive = remaining >= 0;
-
-                html += `
-                    <div class="cumulative-card">
-                        <h4>${service}</h4>
-                        <div class="amount">ZMW ${total.toFixed(2)}</div>
-                        <div style="font-size:12px; opacity:0.7;">Used of ZMW ${limit.toFixed(2)}</div>
-                        <div class="remaining ${isPositive ? 'positive' : 'negative'}">
-                            Remaining: ZMW ${remaining.toFixed(2)}
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // Update tax performance bars
-        function updateTaxBars() {
-            const container = document.getElementById('taxBars');
-            let html = '';
-
-            // Calculate tax per service
-            const serviceTaxes = {};
-            Object.keys(serviceTaxRates).forEach(service => {
-                serviceTaxes[service] = transactions
-                    .filter(t => t.service === service)
-                    .reduce((sum, t) => sum + t.tax, 0);
-            });
-
-            const maxTax = Math.max(...Object.values(serviceTaxes), 1);
-
-            Object.keys(serviceTaxes).forEach(service => {
-                const taxAmount = serviceTaxes[service];
-                const percentage = (taxAmount / maxTax) * 100;
-
-                let barClass = 'bar-fill';
-                if (percentage > 80) barClass += ' danger';
-                else if (percentage > 50) barClass += ' warning';
-
-                html += `
-                    <div class="bar-container">
-                        <div class="bar-label">
-                            <span>${service}</span>
-                            <span>ZMW ${taxAmount.toFixed(2)}</span>
-                        </div>
-                        <div class="bar-track">
-                            <div class="${barClass}" style="width: ${percentage}%;"></div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // Update transaction history
-        function updateTransactionHistory() {
-            const container = document.getElementById('historyTable');
-            const recent = transactions.slice(-20).reverse();
-
-            if (recent.length === 0) {
-                container.innerHTML = '<p style="text-align:center; opacity:0.6;">No transactions yet.</p>';
-                return;
-            }
-
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Booth</th>
-                            <th>Service</th>
-                            <th>Amount</th>
-                            <th>Revenue</th>
-                            <th>After Tax</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            recent.forEach(t => {
-                html += `
-                    <tr>
-                        <td>${t.id}</td>
-                        <td>${t.booth}</td>
-                        <td>${t.service}</td>
-                        <td>ZMW ${t.amount.toFixed(2)}</td>
-                        <td>ZMW ${t.revenue.toFixed(2)}</td>
-                        <td>ZMW ${t.afterTax.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        // Update overall display
-        function updateDisplay() {
-            // Could add more display updates here
         }
 
         // Add event listeners

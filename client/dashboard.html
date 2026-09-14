@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get started - Wina Bwangu</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* Dashboard Styles */
         .dashboard-container {
@@ -15,7 +16,7 @@
 
         .dashboard-page {
             min-height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
                         url('images/Image_5.jpeg');
             background-size: cover;
             background-position: center;
@@ -41,7 +42,7 @@
         .dashboard-container h1 {
             text-align: center;
             font-size: 36px;
-            color: #4CAF50;
+            color: #ecf7ec;
             margin-bottom: 30px;
         }
 
@@ -52,11 +53,11 @@
             border-radius: 15px;
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(82, 171, 206, 0.2);
         }
 
         .transaction-form h2 {
-            color: #4CAF50;
+            color: #dfece0;
             margin-bottom: 20px;
             text-align: center;
             font-size: 24px;
@@ -98,7 +99,7 @@
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #4CAF50;
+            border-color: #5794ce;
             box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
         }
 
@@ -118,7 +119,7 @@
         }
 
         .btn-submit {
-            background: #4CAF50;
+            background: #74b2ec;
             color: #000;
             padding: 14px 50px;
             border: none;
@@ -132,9 +133,9 @@
         }
 
         .btn-submit:hover {
-            background: #45a049;
+            background: #80ccdf;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 10px 30px rgba(188, 217, 240, 0.4);
         }
 
         /* Result Display */
@@ -148,7 +149,7 @@
         }
 
         .result-display h3 {
-            color: #4CAF50;
+            color: #e7eee7;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -166,12 +167,12 @@
 
         .result-item span:last-child {
             font-weight: 600;
-            color: #4CAF50;
+            color: #e4f3e5;
         }
 
         /* Contact Footer Styles */
         .contact-footer {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.6);
             padding: 40px 20px 20px;
             margin-top: 40px;
             border-radius: 15px;
@@ -186,7 +187,7 @@
         }
 
         .contact-column h3 {
-            color: #4CAF50;
+            color: #e5ebe5;
             margin-bottom: 15px;
             font-size: 18px;
         }
@@ -211,14 +212,53 @@
         }
 
         .contact-column .social-icons a {
-            font-size: 24px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             width: 42px;
+             height: 42px;
+             border-radius: 50%;
+             background: rgba(255, 255, 255, 0.1);
+             color: rgba(255, 255, 255, 0.85);
+             font-size: 18px;
+             text-decoration: none;
+             transition: all 0.3s ease;
+             overflow: hidden;
         }
 
         .contact-column .social-icons a:hover {
-            color: #4CAF50;
-            transform: translateY(-3px);
+             color: #fff;
+             transform: translateY(-4px);
+             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      
+        }
+        
+        .social-icons a[aria-label="Facebook"]:hover {
+             background: #1877f2;
+        }
+
+        .social-icons a[aria-label="X"]:hover {
+             background: #000;
+       }
+
+       .social-icons a[aria-label="Instagram"]:hover {
+            background: radial-gradient(circle at 30% 110%,
+                #fdf497 0%,
+                #fd5949 45%,
+                #d6249f 60%,
+                #285AEB 90%);
+        }
+
+        .social-icons a[aria-label="GitHub"]:hover {
+          background: #333;
+        }
+
+        .social-icons a[aria-label="LinkedIn"]:hover {
+          background: #0a66c2;
+        }
+
+        .social-icons a[aria-label="WhatsApp"]:hover {
+          background: #00ff55;
         }
 
         .footer-bottom {
@@ -355,10 +395,22 @@
                     <div class="contact-column">
                         <h3> Follow Us</h3>
                         <div class="social-icons">
-                            <a href="#" title="Facebook">Facebook</a>
-                            <a href="#" title="Twitter">Twitter</a>
-                            <a href="#" title="Instagram">Instagram</a>
-                            <a href="#" title="LinkedIn">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                              <i class="fa-brands fa-facebook"></i>
+                            </a>
+                            <a href="https://x.com" target="_blank" aria-label="X">
+                               <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                              <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" aria-label="GitHub">
+                              <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                              <i class="fa-brands fa-linkedin"></i>
+                             </a>
+
                         </div>
                     </div>
                 </div>

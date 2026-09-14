@@ -10,20 +10,28 @@ body {
     color: #fff;
     min-height: 100vh;
     overflow-x: hidden;
+
+    /* Full-page background image */
+    background: linear-gradient(rgba(12, 12, 12, 0.4), rgba(14, 13, 13, 0.4)),
+                url('images/Image_6.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 /* Navigation */
 nav {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.6);
     padding: 15px 50px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
-
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -33,7 +41,7 @@ nav {
 }
 
 .logo h2 {
-    color: #4CAF50;
+    color: #eef3ee;
     font-size: 24px;
     font-weight: 700;
 }
@@ -54,12 +62,12 @@ nav {
 }
 
 .nav-links a:hover {
-    background: #4CAF50;
+    background: #c9e4dfa6;
     color: #000;
 }
 
 .nav-links a.active {
-    background: #4CAF50;
+    background: #d0e4e7;
     color: #000;
 }
 
@@ -70,8 +78,8 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(12, 12, 12, 0.7), rgba(14, 13, 13, 0.7)),
-                url('images/Image_2.jpeg');
+    background: linear-gradient(rgba(12, 12, 12, 0.4), rgba(14, 13, 13, 0.4)),
+                url('images/Image_6.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -126,14 +134,14 @@ nav {
 }
 
 .btn-primary {
-    background: #4CAF50;
+    background: #eaf1eb;
     color: #000;
 }
 
 .btn-primary:hover {
-    background: #45a049;
+    background: #bce9be;
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 10px 30px rgba(64, 154, 228, 0.4);
 }
 
 .btn-secondary {
@@ -150,7 +158,7 @@ nav {
 
 /* Services Section */
 .services {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.6);
     padding: 80px 20px;
     text-align: center;
 }
@@ -158,7 +166,7 @@ nav {
 .services h2 {
     font-size: 36px;
     margin-bottom: 10px;
-    color: #4CAF50;
+    color: #eaf1eb;
 }
 
 .services-subtitle {
@@ -180,6 +188,7 @@ nav {
     padding: 30px 20px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     border: 1px solid rgba(76, 175, 80, 0.2);
 }
@@ -187,8 +196,8 @@ nav {
 .service-card:hover {
     transform: translateY(-10px);
     background: rgba(255, 255, 255, 0.15);
-    border-color: #4CAF50;
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+    border-color: #88bfe4;
+    box-shadow: 0 10px 30px rgba(225, 235, 226, 0.2);
 }
 
 .service-icon {
@@ -197,7 +206,7 @@ nav {
 }
 
 .service-card h3 {
-    color: #4CAF50;
+    color: #eefaef;
     margin-bottom: 10px;
     font-size: 20px;
 }
@@ -210,8 +219,8 @@ nav {
 
 .service-status {
     display: inline-block;
-    background: rgba(76, 175, 80, 0.2);
-    color: #4CAF50;
+    background: rgba(142, 209, 144, 0.2);
+    color: #e0ebe0;
     padding: 5px 15px;
     border-radius: 20px;
     font-size: 12px;
@@ -220,7 +229,7 @@ nav {
 
 /* Features Section */
 .features {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.6);
     padding: 80px 20px;
     text-align: center;
 }
@@ -228,7 +237,7 @@ nav {
 .features h2 {
     font-size: 36px;
     margin-bottom: 50px;
-    color: #4CAF50;
+    color: #ecf5ed;
 }
 
 .features-grid {
@@ -244,6 +253,7 @@ nav {
     padding: 40px 20px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -259,14 +269,14 @@ nav {
 }
 
 .feature-card h3 {
-    color: #4CAF50;
+    color: #e8ece8;
     margin-bottom: 10px;
 }
 
 /* About Page */
 .about-page {
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
                 url('images/Image_4.jpeg');
     background-size: cover;
     background-position: center;
@@ -286,7 +296,7 @@ nav {
     text-align: center;
     font-size: 44px;
     margin-bottom: 50px;
-    color: #4CAF50;
+    color: #ebf5eb;
 }
 
 .about-grid {
@@ -300,6 +310,7 @@ nav {
     padding: 30px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     border: 1px solid rgba(76, 175, 80, 0.1);
 }
@@ -307,11 +318,11 @@ nav {
 .about-card:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-5px);
-    border-color: #4CAF50;
+    border-color: #e2eee3;
 }
 
 .about-card h2 {
-    color: #4CAF50;
+    color: #e3f1e4;
     margin-bottom: 15px;
 }
 
@@ -328,7 +339,7 @@ nav {
 /* Dashboard Page */
 .dashboard-page {
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
             url('images/Image_2.jpeg');
     background-size: cover;
     background-position: center;
@@ -348,7 +359,7 @@ nav {
     text-align: center;
     font-size: 44px;
     margin-bottom: 50px;
-    color: #4CAF50;
+    color: #eef5ef;
 }
 
 .dashboard-stats {
@@ -364,6 +375,7 @@ nav {
     border-radius: 15px;
     text-align: center;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     border: 1px solid rgba(76, 175, 80, 0.1);
 }
@@ -371,7 +383,7 @@ nav {
 .stat-card:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: scale(1.05);
-    border-color: #4CAF50;
+    border-color: #48a7d3;
 }
 
 .stat-number {
@@ -396,7 +408,7 @@ nav {
 
 .service-status-section h2 {
     text-align: center;
-    color: #4CAF50;
+    color: #e1e9e2;
     margin-bottom: 25px;
 }
 
@@ -434,7 +446,7 @@ nav {
 
 .status-text {
     margin-left: auto;
-    color: #4CAF50;
+    color: #d7e4d7;
     font-size: 12px;
     font-weight: 600;
 }
@@ -452,6 +464,7 @@ nav {
     border-radius: 15px;
     text-align: center;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     border: 1px solid rgba(76, 175, 80, 0.1);
 }
@@ -459,11 +472,11 @@ nav {
 .action-card:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-5px);
-    border-color: #4CAF50;
+    border-color: #2c9cb8;
 }
 
 .action-card h3 {
-    color: #4CAF50;
+    color: #ddecdd;
     margin-bottom: 10px;
 }
 
@@ -481,7 +494,7 @@ nav {
 
 /* Footer */
 footer {
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.6);
     text-align: center;
     padding: 20px;
     font-size: 14px;
@@ -489,10 +502,10 @@ footer {
 }
 /* Contact Footer Styles */
         .contact-footer {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.6);
             padding: 40px 20px 20px;
-            margin-top: 40px;
-            border-radius: 15px;
+            margin-top: 0;
+            border-radius: 0;
         }
 
         .contact-container {
@@ -504,7 +517,7 @@ footer {
         }
 
         .contact-column h3 {
-            color: #4CAF50;
+            color: #e3ece4;
             margin-bottom: 15px;
             font-size: 18px;
         }
@@ -529,14 +542,53 @@ footer {
         }
 
         .contact-column .social-icons a {
-            font-size: 24px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             width: 42px;
+             height: 42px;
+             border-radius: 50%;
+             background: rgba(255, 255, 255, 0.1);
+             color: rgba(255, 255, 255, 0.85);
+             font-size: 18px;
+             text-decoration: none;
+             transition: all 0.3s ease;
+             overflow: hidden;
         }
 
         .contact-column .social-icons a:hover {
-            color: #4CAF50;
-            transform: translateY(-3px);
+             color: #fff;
+             transform: translateY(-4px);
+             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      
+        }
+        
+        .social-icons a[aria-label="Facebook"]:hover {
+             background: #1877f2;
+        }
+
+        .social-icons a[aria-label="X"]:hover {
+             background: #000;
+       }
+
+       .social-icons a[aria-label="Instagram"]:hover {
+            background: radial-gradient(circle at 30% 110%,
+                #fdf497 0%,
+                #fd5949 45%,
+                #d6249f 60%,
+                #285AEB 90%);
+        }
+
+        .social-icons a[aria-label="GitHub"]:hover {
+          background: #333;
+        }
+
+        .social-icons a[aria-label="LinkedIn"]:hover {
+          background: #0a66c2;
+        }
+
+        .social-icons a[aria-label="WhatsApp"]:hover {
+          background: #00ff55;
         }
 
         .footer-bottom {

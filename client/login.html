@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Login - Wina Bwangu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(12, 12, 12, 0.6), rgba(14, 13, 13, 0.6)),
+                url('images/Image_6.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 100px 20px 50px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(82, 171, 206, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-container h2 {
+            color: #ecf7ec;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-container p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form-group label {
+            display: block;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .login-form-group input:focus {
+            outline: none;
+            border-color: #5794ce;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .login-form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #74b2ec;
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: #80ccdf;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(188, 217, 240, 0.4);
+        }
+
+        .login-footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .login-footer a {
+            color: #74b2ec;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <h1> Wina Bwangu</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Terminal Home</a></li>
+                <li><a href="about.html">About Booth</a></li>
+                <li><a href="login.html" class="active">Process Cash</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="login-page">
+        <div class="login-container">
+            <h2>Agent Login</h2>
+            <p>Enter your credentials to access the transaction terminal</p>
+            
+            <form id="loginForm">
+                <div class="login-form-group">
+                    <label for="agentId">Agent ID</label>
+                    <input type="text" id="agentId" placeholder="e.g. Wina1" required>
+                </div>
+                <div class="login-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div id="loginError" style="color: #ff6b6b; font-size: 13px; margin-bottom: 10px; display: none;"></div>
+                <button type="submit" class="btn-login">Login to Terminal</button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Forgot password? <a href="about.html">Contact Support</a></p>
+            </div>
+        </div>
+    </section>
+
+
+     <script>
+        
+        // for now am using this array for kepping passwords
+        
+        const authorizedUsers = [
+            { agentId: "Wina1", password: "12345", location: "Lusaka CBD" },
+            { agentId: "Wina2", password: "12345", location: "Libala" },
+            { agentId: "Wina3", password: "12345", location: "Kabwata" },
+            { agentId: "Wina4", password: "12345", location: "Mandevu" },
+            { agentId: "Wina5", password: "12345", location: "Woodlands" },
+            { agentId: "Wina6", password: "12345", location: "Matero East" }
+        ];
+
+        // Handle Login Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop the page from reloading
+
+            // Get values from the form
+            const inputAgentId = document.getElementById('agentId').value.trim();
+            const inputPassword = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+
+            // Hide previous errors
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
+
+            // Check if the user exists and password matches
+            const matchedUser = authorizedUsers.find(user => 
+                user.agentId.toLowerCase() === inputAgentId.toLowerCase() && 
+                user.password === inputPassword
+            );
+
+            if (matchedUser) {
+                // SUCCESS: Store user info in browser session (so dashboard can read it later)
+                sessionStorage.setItem('loggedInAgent', matchedUser.agentId);
+                sessionStorage.setItem('agentLocation', matchedUser.location);
+                
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                // FAILURE: Show error message
+                errorDiv.textContent = 'Invalid Agent ID or Password. Please try again.';
+                errorDiv.style.display = 'block';
+                
+                // Optional: Clear password field on failure
+                document.getElementById('password').value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

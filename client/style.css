@@ -219,6 +219,22 @@ nav {
     margin-bottom: 10px;
 }
 
+/* Service Logos */
+.service-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain; 
+    margin-bottom: 15px; 
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+
+.service-card:hover .service-logo {
+    transform: scale(1.1);
+}
+
+
 .service-status {
     display: inline-block;
     background: rgba(142, 209, 144, 0.2);
@@ -228,7 +244,6 @@ nav {
     font-size: 12px;
     font-weight: 600;
 }
-
 /* Features Section */
 .features {
     background: rgba(0, 0, 0, 0.6);

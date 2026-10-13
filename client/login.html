@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Wina Bwangu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="page-login">
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <h2>Wina Bwangu</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Terminal Home</a></li>
+                <li><a href="about.html">About Booth</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="login-page">
+        <div class="login-card">
+
+            <div class="login-badge">Secure Access</div>
+
+            <h1>Agent Login</h1>
+            <p class="login-sub">Enter your credentials to access the dashboard and admin panel.</p>
+
+            <form id="loginForm" class="login-form">
+
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="e.g. agent01" required autocomplete="username">
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+                </div>
+
+                <div class="field">
+                    <label for="role">Login as</label>
+                    <select id="role">
+                        <option value="agent">Agent </option>
+                        <option value="admin">Administrator </option>
+                    </select>
+                </div>
+
+                <p id="loginError" class="login-error" hidden>Invalid username or password.</p>
+
+                <div class="center-row">
+                    <button type="submit" class="btn-primary btn-sm">
+                        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                    </button>
+                </div>
+
+            </form>
+
+            <p class="login-hint">
+                Demo credentials: Agent uses <code>agent</code> / <code>agent123</code>.
+                Admin uses <code>admin</code> / <code>admin123</code>.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- Login logic (at the bottom, not in head) -->
+    <script>
+        const USERS = {
+            agent: { password: 'agent123', redirect: 'dashboard.html', role: 'agent' },
+            admin: { password: 'admin123', redirect: 'admin.html',     role: 'admin' }
+        };
+
+        const form  = document.getElementById('loginForm');
+        const error = document.getElementById('loginError');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const role     = document.getElementById('role').value;
+
+            const user = USERS[username];
+
+            if (!user || user.password !== password || user.role !== role) {
+                error.hidden = false;
+                return;
+            }
+
+            sessionStorage.setItem('wb_user', username);
+            sessionStorage.setItem('wb_role', role);
+
+            window.location.href = user.redirect;
+        });
+    </script>
+
+</body>
+
+</html>

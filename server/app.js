@@ -15,6 +15,9 @@ app.use(express.static(path.join(__dirname,'..', 'client')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..','client', 'index.html'));
 });
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'login.html'));
+});
 
 // database connection pool
 const pool = mysql.createPool({

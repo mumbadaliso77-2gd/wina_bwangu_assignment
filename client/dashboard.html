@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get started - Wina Bwangu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Dashboard Styles */
+        .dashboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-page {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('images/Image_5.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 120px 20px 50px;
+            position: relative;
+        }
+
+        .dashboard-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-container h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #ecf7ec;
+            margin-bottom: 30px;
+        }
+
+        /* Transaction Form */
+        .transaction-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(82, 171, 206, 0.2);
+        }
+
+        .transaction-form h2 {
+            color: #dfece0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #5794ce;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input:disabled,
+        .form-group input[readonly] {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .form-group select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        .btn-submit {
+            background: #74b2ec;
+            color: #000;
+            padding: 14px 50px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background: #80ccdf;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(188, 217, 240, 0.4);
+        }
+
+        /* Result Display */
+        .result-display {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            display: none;
+        }
+
+        .result-display h3 {
+            color: #e7eee7;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-item span:first-child {
+            opacity: 0.8;
+        }
+
+        .result-item span:last-child {
+            font-weight: 600;
+            color: #e4f3e5;
+        }
+
+        /* Contact Footer Styles */
+        .contact-footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+            border-radius: 15px;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-column h3 {
+            color: #e5ebe5;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .contact-column p,
+        .contact-column a {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+
+        .contact-column a:hover {
+            color: #4CAF50;
+        }
+
+        .contact-column .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .contact-column .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .contact-column .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+
+        }
+
+        .social-icons a[aria-label="Facebook"]:hover {
+            background: #1877f2;
+        }
+
+        .social-icons a[aria-label="X"]:hover {
+            background: #000;
+        }
+
+        .social-icons a[aria-label="Instagram"]:hover {
+            background: radial-gradient(circle at 30% 110%,
+                    #fdf497 0%,
+                    #fd5949 45%,
+                    #d6249f 60%,
+                    #285AEB 90%);
+        }
+
+        .social-icons a[aria-label="GitHub"]:hover {
+            background: #333;
+        }
+
+        .social-icons a[aria-label="LinkedIn"]:hover {
+            background: #0a66c2;
+        }
+
+        .social-icons a[aria-label="WhatsApp"]:hover {
+            background: #00ff55;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                padding: 10px;
+            }
+
+            .dashboard-container h1 {
+                font-size: 28px;
+            }
+
+            .transaction-form {
+                padding: 20px;
+            }
+
+            .btn-submit {
+                padding: 12px 30px;
+                font-size: 14px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-column .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <h2> Wina Bwangu</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Terminal Home</a></li>
+                <li><a href="about.html">About Booth</a></li>
+                <li><a href="dashboard.html" class="active">Process Cash</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-page">
+        <div class="dashboard-overlay"></div>
+        <div class="dashboard-container">
+            <h1>Transaction Dashboard</h1>
+
+            <!-- Transaction Form -->
+            <div class="transaction-form">
+                <h2> New Transaction</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Transaction ID</label>
+                        <input type="text" id="transactionId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Booth</label>
+                        <select id="mobileBooth">
+                            <option value="">Select Booth</option>
+                            <option value="Wina1">Wina1</option>
+                            <option value="Wina2">Wina2</option>
+                            <option value="Wina3">Wina3</option>
+                            <option value="Wina4">Wina4</option>
+                            <option value="Wina5">Wina5</option>
+                            <option value="Wina6">Wina6</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="location" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Service</label>
+                        <select id="service">
+                            <option value="">Select Service</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Revenue Per Kwacha</label>
+                        <input type="text" id="revenueRate" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Transaction Amount (ZMW)</label>
+                        <input type="number" id="transactionAmount" placeholder="Enter amount">
+                    </div>
+                </div>
+                <button class="btn-submit" onclick="calculateTransaction()">Process Transaction</button>
+
+                <div id="transactionResult" class="result-display">
+                    <h3>Transaction Summary</h3>
+                    <div id="resultDetails"></div>
+                </div>
+            </div>
+
+            <!-- Contact Footer -->
+            <footer class="contact-footer">
+                <div class="contact-container">
+                    <div class="contact-column">
+                        <h3> Wina Bwangu</h3>
+                        <p>Leading company providing mobile money transfer services across Lusaka District.</p>
+                    </div>
+                    <div class="contact-column">
+                        <h3> Contact Us</h3>
+                        <p> +260 97 1234567</p>
+                        <p>info@winabwangu.co.zm</p>
+                        <p> Lusaka, Zambia</p>
+                    </div>
+                    <div class="contact-column">
+                        <h3> Working Hours</h3>
+                        <p>Open 24/7</p>
+
+
+                    </div>
+                    <div class="contact-column">
+                        <h3> Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                            <a href="https://x.com" target="_blank" aria-label="X">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" aria-label="GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Wina Bwangu Online Booth. All rights reserved. Created by Group 9</p>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <script>
+        // Data Definitions
+        const boothLocations = {
+            'Wina1': 'Lusaka CBD',
+            'Wina2': 'Libala',
+            'Wina3': 'Kabwata',
+            'Wina4': 'Mandevu',
+            'Wina5': 'Woodlands',
+            'Wina6': 'Matero East'
+        };
+
+        const boothServices = {
+            'Wina1': ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'],
+            'Wina2': ['Airtel Money', 'MTN Money', 'Zamtel Money', 'FNB'],
+            'Wina3': ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'],
+            'Wina4': ['Airtel Money', 'MTN Money', 'Zamtel Money'],
+            'Wina5': ['Airtel Money', 'MTN Money', 'Zanaco', 'FNB'],
+            'Wina6': ['Airtel Money', 'MTN Money', 'Zamtel Money']
+        };
+
+        const serviceRevenue = {
+            'Airtel Money': 0.05,
+            'MTN Money': 0.06,
+            'Zamtel Money': 0.045,
+            'Zanaco': 0.035,
+            'FNB': 0.04
+        };
+
+        // Initialize dropdowns on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const boothSelect = document.getElementById('mobileBooth');
+            
+            // Automatically generate the dropdown options based on the dictionary
+            Object.keys(boothLocations).forEach(booth => {
+                boothSelect.insertAdjacentHTML('beforeend', `<option value="${booth}">${booth}</option>`);
+            });
+
+            updateBoothServices();
+            document.getElementById('transactionId').value = 'Pending Server...';
+        });
+
+        // Update services based on booth selection
+        function updateBoothServices() {
+            const booth = document.getElementById('mobileBooth').value;
+            const serviceSelect = document.getElementById('service');
+            const locationInput = document.getElementById('location');
+
+            // Clear existing options
+            serviceSelect.innerHTML = '<option value="">Select Service</option>';
+
+            if (booth && boothLocations[booth]) {
+                locationInput.value = boothLocations[booth];
+                const services = boothServices[booth] || [];
+                services.forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service;
+                    option.textContent = service;
+                    serviceSelect.appendChild(option);
+                });
+                document.getElementById('revenueRate').value = '';
+            } else {
+                locationInput.value = '';
+            }
+        }
+
+        // Update revenue rate when service is selected
+        document.getElementById('service').addEventListener('change', function () {
+            const service = this.value;
+            if (service && serviceRevenue[service]) {
+                document.getElementById('revenueRate').value = serviceRevenue[service];
+            } else {
+                document.getElementById('revenueRate').value = '';
+            }
+        });
+
+// Calculate Transaction and send to Server
+async function calculateTransaction() {
+    const booth = document.getElementById('mobileBooth').value;
+    const service = document.getElementById('service').value;
+    const amount = parseFloat(document.getElementById('transactionAmount').value);
+
+    // 1. Validate input
+    if (!booth || !service || !amount || amount <= 0) {
+        alert('Please fill in all fields with valid values.');
+        return;
+    }
+
+    try {
+        // 2. Send the data to your Node.js server via a POST request
+        const response = await fetch('http://localhost:3000/api/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ booth, service, amount })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || 'Transaction failed');
+            return;
+        }
+
+        // 3. Display the digital receipt using the Transaction ID generated by the database
+        const resultDiv = document.getElementById('transactionResult');
+        resultDiv.style.display = 'block';
+        document.getElementById('resultDetails').innerHTML = `
+            <div class="result-item"><span>Transaction ID</span><span>${data.id}</span></div>
+            <div class="result-item"><span>Mobile Booth</span><span>${booth}</span></div>
+            <div class="result-item"><span>Location</span><span>${boothLocations[booth]}</span></div>
+            <div class="result-item"><span>Service</span><span>${service}</span></div>
+            <div class="result-item"><span>Transaction Amount</span><span>ZMW ${amount.toFixed(2)}</span></div>
+            <div class="result-item"><span>Status</span><span style="color:#4CAF50">Saved to Database</span></div>
+        `;
+
+        // 4. Reset the form for the next customer
+        document.getElementById('transactionAmount').value = '';
+        document.getElementById('transactionId').value = 'Generated by Server...'; 
+        
+        // Scroll down to the result
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (error) {
+        console.error("Network error:", error);
+        alert("Could not connect to the server. Make sure your Node.js server is running in the terminal!");
+    }
+}
+        // Add event listeners
+        document.getElementById('mobileBooth').addEventListener('change', function () {
+            updateBoothServices();
+        });
+
+        // Enter key to submit
+        document.getElementById('transactionAmount').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                calculateTransaction();
+            }
+        });
+    </script>
+</body>
+
+</html>

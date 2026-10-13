@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const path = require('path'); 
 
 /* app configurations */
 const app = express();
@@ -10,6 +11,10 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname,'..', 'client')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..','client', 'index.html'));
+});
 
 // database connection pool
 const pool = mysql.createPool({

@@ -7,11 +7,12 @@ const path = require('path');
 
 /* app configurations */
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'..', 'client')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..','client', 'index.html'));
 });
@@ -78,6 +79,9 @@ app.post('/api/transactions', async (req, res)=>{
         res.status(500).json({error: 'Server error processing transaction'});
     }
 });
-app.listen(port, ()=>{
-    console.log(`Wina Bwangu API runnig at http://localhost:${port}`);
+
+setInterval(() => {}, 1000 * 60 * 60 * 24);
+
+const server = app.listen(port, () => {
+    console.log(`Wina Bwangu API running at http://localhost:${port}`);
 });

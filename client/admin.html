@@ -149,273 +149,270 @@
     </footer>
 
     <script>
-        // ===== Reference data (Tables 1 and 2 of the case study) =====
-        const BOOTHS = {
-            'Wina1': { name: 'Wina1', location: 'Lusaka CBD', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'] },
-            'Wina2': { name: 'Wina2', location: 'Libala', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'FNB'] },
-            'Wina3': { name: 'Wina3', location: 'Kabwata', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'] },
-            'Wina4': { name: 'Wina4', location: 'Mandevu', services: ['Airtel Money', 'MTN Money', 'Zamtel Money'] },
-            'Wina5': { name: 'Wina5', location: 'Woodlands', services: ['Airtel Money', 'MTN Money', 'Zanaco', 'FNB'] },
-            'Wina6': { name: 'Wina6', location: 'Matero East', services: ['Airtel Money', 'MTN Money', 'Zamtel Money'] }
-        };
+// ===== Reference data (Tables 1 and 2 of the case study) =====
+const BOOTHS = {
+    'Wina1': { name: 'Wina1', location: 'Lusaka CBD', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'] },
+    'Wina2': { name: 'Wina2', location: 'Libala', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'FNB'] },
+    'Wina3': { name: 'Wina3', location: 'Kabwata', services: ['Airtel Money', 'MTN Money', 'Zamtel Money', 'Zanaco', 'FNB'] },
+    'Wina4': { name: 'Wina4', location: 'Mandevu', services: ['Airtel Money', 'MTN Money', 'Zamtel Money'] },
+    'Wina5': { name: 'Wina5', location: 'Woodlands', services: ['Airtel Money', 'MTN Money', 'Zanaco', 'FNB'] },
+    'Wina6': { name: 'Wina6', location: 'Matero East', services: ['Airtel Money', 'MTN Money', 'Zamtel Money'] }
+};
 
-        const DEFAULT_SERVICES = {
-            'Airtel Money': { name: 'Airtel Money', rate: 0.05, limit: 350000, tax: 0.075 },
-            'MTN Money': { name: 'MTN Money', rate: 0.06, limit: 160000, tax: 0.075 },
-            'Zamtel Money': { name: 'Zamtel Money', rate: 0.045, limit: 70000, tax: 0.075 },
-            'Zanaco': { name: 'Zanaco', rate: 0.035, limit: 80000, tax: 0.10 },
-            'FNB': { name: 'FNB', rate: 0.04, limit: 80000, tax: 0.10 }
-        };
-        let SERVICES = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
-        const SKEYS = Object.keys(SERVICES);
-        // Global array to hold server data
-        let TX = []; 
+const DEFAULT_SERVICES = {
+    'Airtel Money': { name: 'Airtel Money', rate: 0.05, limit: 350000, tax: 0.075 },
+    'MTN Money': { name: 'MTN Money', rate: 0.06, limit: 160000, tax: 0.075 },
+    'Zamtel Money': { name: 'Zamtel Money', rate: 0.045, limit: 70000, tax: 0.075 },
+    'Zanaco': { name: 'Zanaco', rate: 0.035, limit: 80000, tax: 0.10 },
+    'FNB': { name: 'FNB', rate: 0.04, limit: 80000, tax: 0.10 }
+};
+let SERVICES = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+const SKEYS = Object.keys(SERVICES);
+// Global array to hold server data
+let TX = []; 
 
-        // Fetch data from Node.js server
-        async function loadServerData() {
-            try {
-                const response = await fetch('http://localhost:3000/api/transactions');
-                const data = await response.json();
-                
-                // Map the database response to the format the admin charts expect
-                TX = data.map(t => ({
-                    id: t.id,
-                    boothNo: t.booth,    
-                    svc: t.service,      
-                    amount: parseFloat(t.amount)
-                }));
-                
-                // Trigger all the charts and tables to draw using the new data
-                refresh(); 
-            } catch (error) {
-                console.error("Failed to fetch from server:", error);
-                $('alertList').innerHTML = `<div class="alert-item danger"><i class="fa-solid fa-triangle-exclamation"></i><div><strong>Connection Error:</strong> Cannot reach the Node.js server. Make sure it is running on port 3000.</div></div>`;
-            }
-        }
+// Fetch data from Node.js server
+async function loadServerData() {
+    try {
+        const response = await fetch('http://localhost:3001/api/transactions');
+        const data = await response.json();
 
-        // ===== Helpers =====
-        const fmt = n => (n + Math.sign(n) * 1e-9).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const fmt0 = n => n.toLocaleString('en-US', { maximumFractionDigits: 0 });
-        const pct = n => (n * 100).toFixed(1) + '%';
-        const $ = id => document.getElementById(id);
-        const COLORS = ['#34d399', '#38bdf8', '#fbbf24', '#f87171', '#a78bfa', '#2dd4bf'];
+        // Map the database response to the format the admin charts expect
+        TX = data.map(t => ({
+            id: t.id,
+            boothNo: t.booth,    
+            svc: t.service,      
+            amount: parseFloat(t.amount)
+        }));
 
-        const revOf = t => t.amount * SERVICES[t.svc].rate;
-        const taxOf = t => t.amount * SERVICES[t.svc].tax;
-        const statusOf = p => p >= 0.9 ? 'danger' : p >= 0.7 ? 'warn' : 'ok';
-        const statusText = p => p > 1 ? 'Over limit' : p >= 0.9 ? 'Critical' : p >= 0.7 ? 'Watch' : 'Healthy';
+        // Trigger all the charts and tables to draw using the new data
+        refresh(); 
+    } catch (error) {
+        console.error("Failed to fetch from server:", error);
+        $('alertList').innerHTML = `<div class="alert-item danger"><i class="fa-solid fa-triangle-exclamation"></i><div><strong>Connection Error:</strong> Cannot reach the Node.js server. Make sure it is running on port 3001.</div></div>`;
+    }
+}
 
-        // ===== Aggregation =====
-        function compute() {
-            const bySvc = {}, byBooth = {}, freq = {};
-            SKEYS.forEach(k => bySvc[k] = { total: 0, revenue: 0, tax: 0, count: 0 });
-            Object.keys(BOOTHS).forEach(b => {
-                byBooth[b] = { total: 0, revenue: 0, count: 0 };
-                freq[b] = {}; SKEYS.forEach(k => freq[b][k] = 0);
-            });
-            const invalid = [];
-            TX.forEach(t => {
-                const r = revOf(t), x = taxOf(t);
-                const s = bySvc[t.svc]; s.total += t.amount; s.revenue += r; s.tax += x; s.count++;
-                const b = byBooth[t.boothNo]; b.total += t.amount; b.revenue += r; b.count++;
-                freq[t.boothNo][t.svc]++;
-                if (!BOOTHS[t.boothNo].services.includes(t.svc)) invalid.push(t);
-            });
-            const totals = {
-                count: TX.length,
-                amount: TX.reduce((a, t) => a + t.amount, 0),
-                revenue: SKEYS.reduce((a, k) => a + bySvc[k].revenue, 0),
-                tax: SKEYS.reduce((a, k) => a + bySvc[k].tax, 0),
-                capital: SKEYS.reduce((a, k) => a + SERVICES[k].limit, 0)
-            };
-            return { bySvc, byBooth, freq, invalid, totals };
-        }
+// ===== Helpers =====
+const fmt = n => (n + Math.sign(n) * 1e-9).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt0 = n => n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+const pct = n => (n * 100).toFixed(1) + '%';
+const $ = id => document.getElementById(id);
+const COLORS = ['#34d399', '#38bdf8', '#fbbf24', '#f87171', '#a78bfa', '#2dd4bf'];
 
-        // ===== Renderers =====
-        function renderKPIs(c) {
-            const t = c.totals;
-            const items = [
-                ['fa-receipt', 'Total Transactions', fmt0(t.count), 'across 6 booths'],
-                ['fa-money-bill-transfer', 'Total Transacted', 'ZMW ' + fmt0(t.amount), 'cumulative amount'],
-                ['fa-coins', 'Total Revenue', 'ZMW ' + fmt(t.revenue), 'generated by the company'],
-                ['fa-vault', 'Total Capital Required', 'ZMW ' + fmt0(t.capital), 'sum of monthly credit limits'],
-                ['fa-landmark', 'Total Tax Due', 'ZMW ' + fmt(t.tax), 'across all services'],
-                ['fa-percent', 'Capital Utilised', pct(t.amount / t.capital), 'transacted / capital']
-            ];
-            $('kpiGrid').innerHTML = items.map(i => `
-                <div class="stat-card">
-                    <i class="fa-solid ${i[0]}"></i>
-                    <div class="stat-number">${i[2]}</div>
-                    <div class="stat-label">${i[1]}</div>
-                    <div class="stat-note">${i[3]}</div>
-                </div>`).join('');
-            $('txCountHeader').textContent = t.count;
-        }
+const revOf = t => t.amount * SERVICES[t.svc].rate;
+const taxOf = t => t.amount * SERVICES[t.svc].tax;
+const statusOf = p => p >= 0.9 ? 'danger' : p >= 0.7 ? 'warn' : 'ok';
+const statusText = p => p > 1 ? 'Over limit' : p >= 0.9 ? 'Critical' : p >= 0.7 ? 'Watch' : 'Healthy';
 
-        function renderAlerts(c) {
-            const out = [];
-            SKEYS.forEach(k => {
-                const p = c.bySvc[k].total / SERVICES[k].limit;
-                if (p > 1) out.push(['danger', 'fa-circle-exclamation', `<strong>${SERVICES[k].name}</strong> has exceeded its monthly limit by ZMW ${fmt(c.bySvc[k].total - SERVICES[k].limit)}.`]);
-                else if (p >= 0.9) out.push(['danger', 'fa-triangle-exclamation', `<strong>${SERVICES[k].name}</strong> is at ${pct(p)} of its limit. Only ZMW ${fmt(SERVICES[k].limit - c.bySvc[k].total)} remains.`]);
-                else if (p >= 0.7) out.push(['warn', 'fa-triangle-exclamation', `<strong>${SERVICES[k].name}</strong> has used ${pct(p)} of its limit. Consider topping up credit.`]);
-            });
-            c.invalid.forEach(t => out.push(['warn', 'fa-clipboard-question',
-                `Data check: <strong>${t.id}</strong> records <strong>${SERVICES[t.svc].name}</strong> at <strong>${BOOTHS[t.boothNo].name}</strong>, which does not offer that service (ZMW ${fmt0(t.amount)}).`]));
-            if (!out.length) out.push(['ok', 'fa-circle-check', 'No limit or data issues detected.']);
-            $('alertList').innerHTML = out.map(a => `<div class="alert-item ${a[0]}"><i class="fa-solid ${a[1]}"></i><div>${a[2]}</div></div>`).join('');
-        }
+// ===== Aggregation =====
+function compute() {
+    const bySvc = {}, byBooth = {}, freq = {};
+    SKEYS.forEach(k => bySvc[k] = { total: 0, revenue: 0, tax: 0, count: 0 });
+    Object.keys(BOOTHS).forEach(b => {
+        byBooth[b] = { total: 0, revenue: 0, count: 0 };
+        freq[b] = {}; SKEYS.forEach(k => freq[b][k] = 0);
+    });
+    const invalid = [];
+    TX.forEach(t => {
+        const r = revOf(t), x = taxOf(t);
+        const s = bySvc[t.svc]; s.total += t.amount; s.revenue += r; s.tax += x; s.count++;
+        const b = byBooth[t.boothNo]; b.total += t.amount; b.revenue += r; b.count++;
+        freq[t.boothNo][t.svc]++;
+        if (!BOOTHS[t.boothNo].services.includes(t.svc)) invalid.push(t);
+    });
+    const totals = {
+        count: TX.length,
+        amount: TX.reduce((a, t) => a + t.amount, 0),
+        revenue: SKEYS.reduce((a, k) => a + bySvc[k].revenue, 0),
+        tax: SKEYS.reduce((a, k) => a + bySvc[k].tax, 0),
+        capital: SKEYS.reduce((a, k) => a + SERVICES[k].limit, 0)
+    };
+    return { bySvc, byBooth, freq, invalid, totals };
+}
 
-        function renderLimits(c) {
-            $('limitBars').innerHTML = SKEYS.map(k => {
-                const s = SERVICES[k], tot = c.bySvc[k].total, p = tot / s.limit, rem = s.limit - tot;
-                const st = statusOf(p);
-                return `<div class="bar-row">
-                    <div class="bar-head"><strong>${s.name}</strong>
-                        <span>ZMW ${fmt0(tot)} of ZMW ${fmt0(s.limit)} <span class="pill ${st}">${statusText(p)}</span></span></div>
-                    <div class="bar-track"><div class="bar-fill ${st}" style="width:${Math.min(p, 1) * 100}%"></div></div>
-                    <div class="bar-meta"><span>Cumulative total: ZMW ${fmt(tot)}</span>
-                        <span>${rem >= 0 ? 'Amount remaining: ZMW ' + fmt(rem) : 'Over limit by: ZMW ' + fmt(-rem)} (${pct(p)} used)</span></div>
-                </div>`;
-            }).join('');
-        }
+// ===== Renderers =====
+function renderKPIs(c) {
+    const t = c.totals;
+    const items = [
+        ['fa-receipt', 'Total Transactions', fmt0(t.count), 'across 6 booths'],
+        ['fa-money-bill-transfer', 'Total Transacted', 'ZMW ' + fmt0(t.amount), 'cumulative amount'],
+        ['fa-coins', 'Total Revenue', 'ZMW ' + fmt(t.revenue), 'generated by the company'],
+        ['fa-vault', 'Total Capital Required', 'ZMW ' + fmt0(t.capital), 'sum of monthly credit limits'],
+        ['fa-landmark', 'Total Tax Due', 'ZMW ' + fmt(t.tax), 'across all services'],
+        ['fa-percent', 'Capital Utilised', pct(t.amount / t.capital), 'transacted / capital']
+    ];
+    $('kpiGrid').innerHTML = items.map(i => `
+        <div class="stat-card">
+            <i class="fa-solid ${i[0]}"></i>
+            <div class="stat-number">${i[2]}</div>
+            <div class="stat-label">${i[1]}</div>
+            <div class="stat-note">${i[3]}</div>
+        </div>`).join('');
+    // $('txCountHeader').textContent = t.count; // Commented out to prevent errors if this ID is missing from your HTML
+}
 
-        function renderBooths(c) {
-            const ids = Object.keys(BOOTHS);
-            const max = Math.max(...ids.map(b => c.byBooth[b].revenue));
-            const ranked = ids.slice().sort((a, b) => c.byBooth[b].revenue - c.byBooth[a].revenue);
-            $('boothBars').innerHTML = ranked.map((b, i) => {
-                const d = c.byBooth[b];
-                return `<div class="bar-row">
-                    <div class="bar-head"><strong>#${i + 1} ${BOOTHS[b].name} <span style="font-weight:400;opacity:.7">- ${BOOTHS[b].location}</span></strong>
-                        <span>ZMW ${fmt(d.revenue)}</span></div>
-                    <div class="bar-track"><div class="bar-fill" style="width:${(d.revenue / max) * 100}%"></div></div>
-                    <div class="bar-meta"><span>${d.count} transactions</span><span>ZMW ${fmt0(d.total)} transacted</span></div>
-                </div>`;
-            }).join('');
-        }
+function renderAlerts(c) {
+    const out = [];
+    SKEYS.forEach(k => {
+        const p = c.bySvc[k].total / SERVICES[k].limit;
+        if (p > 1) out.push(['danger', 'fa-circle-exclamation', `<strong>${SERVICES[k].name}</strong> has exceeded its monthly limit by ZMW ${fmt(c.bySvc[k].total - SERVICES[k].limit)}.`]);
+        else if (p >= 0.9) out.push(['danger', 'fa-triangle-exclamation', `<strong>${SERVICES[k].name}</strong> is at ${pct(p)} of its limit. Only ZMW ${fmt(SERVICES[k].limit - c.bySvc[k].total)} remains.`]);
+        else if (p >= 0.7) out.push(['warn', 'fa-triangle-exclamation', `<strong>${SERVICES[k].name}</strong> has used ${pct(p)} of its limit. Consider topping up credit.`]);
+    });
+    c.invalid.forEach(t => out.push(['warn', 'fa-clipboard-question',
+        `Data check: <strong>${t.id}</strong> records <strong>${SERVICES[t.svc].name}</strong> at <strong>${BOOTHS[t.boothNo].name}</strong>, which does not offer that service (ZMW ${fmt0(t.amount)}).`]));
+    if (!out.length) out.push(['ok', 'fa-circle-check', 'No limit or data issues detected.']);
+    $('alertList').innerHTML = out.map(a => `<div class="alert-item ${a[0]}"><i class="fa-solid ${a[1]}"></i><div>${a[2]}</div></div>`).join('');
+}
 
-        function renderFreq(c) {
-            const ids = Object.keys(BOOTHS);
-            let max = 0; ids.forEach(b => SKEYS.forEach(k => max = Math.max(max, c.freq[b][k])));
-            let h = '<thead><tr><th>Booth</th><th>Location</th>' + SKEYS.map(k => `<th class="num">${SERVICES[k].name}</th>`).join('') + '<th class="num">Total</th></tr></thead><tbody>';
-            ids.forEach(b => {
-                let rowTotal = 0;
-                h += `<tr><td><strong>${BOOTHS[b].name}</strong></td><td>${BOOTHS[b].location}</td>`;
-                SKEYS.forEach(k => {
-                    const n = c.freq[b][k], offered = BOOTHS[b].services.includes(k);
-                    rowTotal += n;
-                    if (!offered && n === 0) h += '<td class="num cell-na">&mdash;</td>';
-                    else if (!offered) h += `<td class="num cell-flag" title="Service not offered at this booth">${n} &#9888;</td>`;
-                    else h += `<td class="num heat" style="background:rgba(52,211,153,${(0.08 + 0.5 * n / max).toFixed(2)})">${n}</td>`;
-                });
-                h += `<td class="num"><strong>${rowTotal}</strong></td></tr>`;
-            });
-            h += '</tbody><tfoot><tr><td colspan="2">All booths</td>' + SKEYS.map(k => `<td class="num">${c.bySvc[k].count}</td>`).join('') + `<td class="num">${c.totals.count}</td></tr></tfoot>`;
-            $('freqTable').innerHTML = h;
-        }
+function renderLimits(c) {
+    $('limitBars').innerHTML = SKEYS.map(k => {
+        const s = SERVICES[k], tot = c.bySvc[k].total, p = tot / s.limit, rem = s.limit - tot;
+        const st = statusOf(p);
+        return `<div class="bar-row">
+            <div class="bar-head"><strong>${s.name}</strong>
+                <span>ZMW ${fmt0(tot)} of ZMW ${fmt0(s.limit)} <span class="pill ${st}">${statusText(p)}</span></span></div>
+            <div class="bar-track"><div class="bar-fill ${st}" style="width:${Math.min(p, 1) * 100}%"></div></div>
+            <div class="bar-meta"><span>Cumulative total: ZMW ${fmt(tot)}</span>
+                <span>${rem >= 0 ? 'Amount remaining: ZMW ' + fmt(rem) : 'Over limit by: ZMW ' + fmt(-rem)} (${pct(p)} used)</span></div>
+        </div>`;
+    }).join('');
+}
 
-        function renderTax(c) {
-            const maxTax = Math.max(...SKEYS.map(k => c.bySvc[k].tax));
-            $('taxBars').innerHTML = SKEYS.map(k => {
-                const d = c.bySvc[k], share = d.tax / c.totals.tax;
-                return `<div class="bar-row">
-                    <div class="bar-head"><strong>${SERVICES[k].name} <span style="font-weight:400;opacity:.7">- ${(SERVICES[k].tax * 100).toFixed(1)}% tax</span></strong>
-                        <span>Tax due: ZMW ${fmt(d.tax)} (${pct(share)} of total)</span></div>
-                    <div class="bar-track"><div class="bar-fill warn" style="width:${(d.tax / maxTax) * 100}%"></div></div>
-                    <div class="bar-meta"><span>Transacted: ZMW ${fmt(d.total)}</span><span>After tax: ZMW ${fmt(d.total - d.tax)}</span></div>
-                </div>`;
-            }).join('') + `<div class="bar-meta" style="font-size:14px;margin-top:10px"><strong>Total tax obligation: ZMW ${fmt(c.totals.tax)}</strong><strong>Total after tax: ZMW ${fmt(c.totals.amount - c.totals.tax)}</strong></div>`;
-        }
+function renderBooths(c) {
+    const ids = Object.keys(BOOTHS);
+    const max = Math.max(...ids.map(b => c.byBooth[b].revenue));
+    const ranked = ids.slice().sort((a, b) => c.byBooth[b].revenue - c.byBooth[a].revenue);
+    $('boothBars').innerHTML = ranked.map((b, i) => {
+        const d = c.byBooth[b];
+        return `<div class="bar-row">
+            <div class="bar-head"><strong>#${i + 1} ${BOOTHS[b].name} <span style="font-weight:400;opacity:.7">- ${BOOTHS[b].location}</span></strong>
+                <span>ZMW ${fmt(d.revenue)}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${(d.revenue / max) * 100}%"></div></div>
+            <div class="bar-meta"><span>${d.count} transactions</span><span>ZMW ${fmt0(d.total)} transacted</span></div>
+        </div>`;
+    }).join('');
+}
 
-        function renderEditors() {
-            $('taxEditor').innerHTML = SKEYS.map(k => `<div class="field"><label>${SERVICES[k].name} tax rate (%)</label>
-                <input type="number" min="0" max="100" step="0.1" value="${(SERVICES[k].tax * 100).toFixed(1)}" data-k="${k}" data-f="tax"></div>`).join('');
-            $('limitEditor').innerHTML = SKEYS.map(k => `<div class="field"><label>${SERVICES[k].name} limit (ZMW)</label>
-                <input type="number" min="0" step="1000" value="${SERVICES[k].limit}" data-k="${k}" data-f="limit"></div>`).join('');
-            document.querySelectorAll('[data-f]').forEach(inp => inp.addEventListener('change', e => {
-                const v = parseFloat(e.target.value);
-                if (isNaN(v) || v < 0) { renderEditors(); return; }
-                SERVICES[e.target.dataset.k][e.target.dataset.f] = e.target.dataset.f === 'tax' ? v / 100 : v;
-                refresh();
-            }));
-        }
+function renderFreq(c) {
+    const ids = Object.keys(BOOTHS);
+    let max = 0; ids.forEach(b => SKEYS.forEach(k => max = Math.max(max, c.freq[b][k])));
+    let h = '<thead><tr><th>Booth</th><th>Location</th>' + SKEYS.map(k => `<th class="num">${SERVICES[k].name}</th>`).join('') + '<th class="num">Total</th></tr></thead><tbody>';
+    ids.forEach(b => {
+        let rowTotal = 0;
+        h += `<tr><td><strong>${BOOTHS[b].name}</strong></td><td>${BOOTHS[b].location}</td>`;
+        SKEYS.forEach(k => {
+            const n = c.freq[b][k], offered = BOOTHS[b].services.includes(k);
+            rowTotal += n;
+            if (!offered && n === 0) h += '<td class="num cell-na">&mdash;</td>';
+            else if (!offered) h += `<td class="num cell-flag" title="Service not offered at this booth">${n} &#9888;</td>`;
+            else h += `<td class="num heat" style="background:rgba(52,211,153,${(0.08 + 0.5 * n / max).toFixed(2)})">${n}</td>`;
+        });
+        h += `<td class="num"><strong>${rowTotal}</strong></td></tr>`;
+    });
+    h += '</tbody><tfoot><tr><td colspan="2">All booths</td>' + SKEYS.map(k => `<td class="num">${c.bySvc[k].count}</td>`).join('') + `<td class="num">${c.totals.count}</td></tr></tfoot>`;
+    $('freqTable').innerHTML = h;
+}
 
-        function resetSettings() { SERVICES = JSON.parse(JSON.stringify(DEFAULT_SERVICES)); renderEditors(); refresh(); }
+function renderTax(c) {
+    const maxTax = Math.max(...SKEYS.map(k => c.bySvc[k].tax));
+    $('taxBars').innerHTML = SKEYS.map(k => {
+        const d = c.bySvc[k], share = d.tax / c.totals.tax;
+        return `<div class="bar-row">
+            <div class="bar-head"><strong>${SERVICES[k].name} <span style="font-weight:400;opacity:.7">- ${(SERVICES[k].tax * 100).toFixed(1)}% tax</span></strong>
+                <span>Tax due: ZMW ${fmt(d.tax)} (${pct(share)} of total)</span></div>
+            <div class="bar-track"><div class="bar-fill warn" style="width:${(d.tax / maxTax) * 100}%"></div></div>
+            <div class="bar-meta"><span>Transacted: ZMW ${fmt(d.total)}</span><span>After tax: ZMW ${fmt(d.total - d.tax)}</span></div>
+        </div>`;
+    }).join('') + `<div class="bar-meta" style="font-size:14px;margin-top:10px"><strong>Total tax obligation: ZMW ${fmt(c.totals.tax)}</strong><strong>Total after tax: ZMW ${fmt(c.totals.amount - c.totals.tax)}</strong></div>`;
+}
 
-        // 3. Chart.js Implementation
-        let pieChartInstance = null;
-        let pieView = 'rc';
+function renderEditors() {
+    $('taxEditor').innerHTML = SKEYS.map(k => `<div class="field"><label>${SERVICES[k].name} tax rate (%)</label>
+        <input type="number" min="0" max="100" step="0.1" value="${(SERVICES[k].tax * 100).toFixed(1)}" data-k="${k}" data-f="tax"></div>`).join('');
+    $('limitEditor').innerHTML = SKEYS.map(k => `<div class="field"><label>${SERVICES[k].name} limit (ZMW)</label>
+        <input type="number" min="0" step="1000" value="${SERVICES[k].limit}" data-k="${k}" data-f="limit"></div>`).join('');
+    document.querySelectorAll('[data-f]').forEach(inp => inp.addEventListener('change', e => {
+        const v = parseFloat(e.target.value);
+        if (isNaN(v) || v < 0) { renderEditors(); return; }
+        SERVICES[e.target.dataset.k][e.target.dataset.f] = e.target.dataset.f === 'tax' ? v / 100 : v;
+        refresh();
+    }));
+}
 
-        function renderPie(c) {
-            let labels = [];
-            let dataValues = [];
+function resetSettings() { SERVICES = JSON.parse(JSON.stringify(DEFAULT_SERVICES)); renderEditors(); refresh(); }
 
-            // Slice the data based on the active tab
-            if (pieView === 'rc') {
-                labels = ['Total Revenue', 'Total Capital Required'];
-                dataValues = [c.totals.revenue, c.totals.capital];
-            } else if (pieView === 'rev') {
-                labels = SKEYS.map(k => SERVICES[k].name);
-                dataValues = SKEYS.map(k => c.bySvc[k].revenue);
-            } else { // 'cap'
-                labels = SKEYS.map(k => SERVICES[k].name);
-                dataValues = SKEYS.map(k => SERVICES[k].limit);
-            }
+// 3. Chart.js Implementation
+let pieChartInstance = null;
+let pieView = 'rc';
 
-            // Destroy the old chart before rendering a new one to prevent overlap glitches
-            if (pieChartInstance) {
-                pieChartInstance.destroy();
-            }
+function renderPie(c) {
+    let labels = [];
+    let dataValues = [];
 
-            const ctx = document.getElementById('pieChart').getContext('2d');
-            pieChartInstance = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: dataValues,
-                        backgroundColor: COLORS, 
-                        borderWidth: 2,
-                        borderColor: '#0f172a'
-                    }]
+    if (pieView === 'rc') {
+        labels = ['Total Revenue', 'Total Capital Required'];
+        dataValues = [c.totals.revenue, c.totals.capital];
+    } else if (pieView === 'rev') {
+        labels = SKEYS.map(k => SERVICES[k].name);
+        dataValues = SKEYS.map(k => c.bySvc[k].revenue);
+    } else { // 'cap'
+        labels = SKEYS.map(k => SERVICES[k].name);
+        dataValues = SKEYS.map(k => SERVICES[k].limit);
+    }
+
+    if (pieChartInstance) {
+        pieChartInstance.destroy();
+    }
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    pieChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                backgroundColor: COLORS, 
+                borderWidth: 2,
+                borderColor: '#0f172a'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { 
+                    position: 'right',
+                    labels: { color: '#f8fafc' } 
                 },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { 
-                            position: 'right',
-                            labels: { color: '#f8fafc' } 
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ZMW ' + fmt(context.raw);
-                                }
-                            }
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ZMW ' + fmt(context.raw);
                         }
                     }
                 }
-            });
+            }
         }
+    });
+}
 
-        document.querySelectorAll('#pieTabs .tab').forEach(btn => btn.addEventListener('click', () => {
-            document.querySelectorAll('#pieTabs .tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active'); 
-            pieView = btn.dataset.view; 
-            renderPie(compute());
-        }));
+document.querySelectorAll('#pieTabs .tab').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('#pieTabs .tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); 
+    pieView = btn.dataset.view; 
+    renderPie(compute());
+}));
 
-        // ===== Init =====
-        function refresh() {
-            const c = compute();
-            renderKPIs(c); renderAlerts(c); renderLimits(c); renderBooths(c); renderFreq(c); renderTax(c); renderPie(c);
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            renderEditors();
-            loadServerData();
-        });
-    </script>
+// ===== Init =====
+function refresh() {
+    const c = compute();
+    renderKPIs(c); renderAlerts(c); renderLimits(c); renderBooths(c); renderFreq(c); renderTax(c); renderPie(c);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    renderEditors();
+    loadServerData();
+});    </script>
 </body>
 
 </html>

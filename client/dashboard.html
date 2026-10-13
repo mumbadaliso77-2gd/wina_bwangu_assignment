@@ -517,7 +517,7 @@ async function calculateTransaction() {
 
     try {
         // 2. Send the data to your Node.js server via a POST request
-        const response = await fetch('http://localhost:3000/api/transactions', {
+        const response = await fetch('http://localhost:3001/api/transactions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ booth, service, amount })

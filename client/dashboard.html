@@ -451,74 +451,17 @@
             'FNB': 0.04
         };
 
-        const serviceLimits = {
-            'Airtel Money': 350000,
-            'MTN Money': 160000,
-            'Zamtel Money': 70000,
-            'Zanaco': 80000,
-            'FNB': 80000
-        };
-
-        const serviceTaxRates = {
-            'Airtel Money': 0.075,
-            'MTN Money': 0.075,
-            'Zamtel Money': 0.075,
-            'Zanaco': 0.10,
-            'FNB': 0.10
-        };
-
-        // Transaction counter
-        let transactionCounter = 20;
-
-        // Store transactions
-        let transactions = [];
-
-        // Initialize with sample data
-        function initializeTransactions() {
-            const sampleData = [
-                { id: 'WB0000001', booth: 'Wina1', service: 'Airtel Money', amount: 964 },
-                { id: 'WB0000002', booth: 'Wina1', service: 'MTN Money', amount: 220 },
-                { id: 'WB0000003', booth: 'Wina2', service: 'MTN Money', amount: 582 },
-                { id: 'WB0000004', booth: 'Wina3', service: 'Zamtel Money', amount: 349 },
-                { id: 'WB0000005', booth: 'Wina4', service: 'Airtel Money', amount: 328 },
-                { id: 'WB0000006', booth: 'Wina3', service: 'MTN Money', amount: 192 },
-                { id: 'WB0000007', booth: 'Wina3', service: 'Zanaco', amount: 1519 },
-                { id: 'WB0000008', booth: 'Wina4', service: 'Zamtel Money', amount: 1113 },
-                { id: 'WB0000009', booth: 'Wina1', service: 'FNB', amount: 1999 },
-                { id: 'WB0000010', booth: 'Wina3', service: 'Airtel Money', amount: 3810 },
-                { id: 'WB0000011', booth: 'Wina6', service: 'Zamtel Money', amount: 3270 },
-                { id: 'WB0000012', booth: 'Wina3', service: 'Zanaco', amount: 1092 },
-                { id: 'WB0000013', booth: 'Wina2', service: 'Airtel Money', amount: 1056 },
-                { id: 'WB0000014', booth: 'Wina3', service: 'Airtel Money', amount: 509 },
-                { id: 'WB0000015', booth: 'Wina5', service: 'FNB', amount: 34 },
-                { id: 'WB0000016', booth: 'Wina2', service: 'MTN Money', amount: 1658 },
-                { id: 'WB0000017', booth: 'Wina5', service: 'Zamtel Money', amount: 2167 },
-                { id: 'WB0000018', booth: 'Wina3', service: 'Airtel Money', amount: 2594 },
-                { id: 'WB0000019', booth: 'Wina4', service: 'Airtel Money', amount: 3656 },
-                { id: 'WB0000020', booth: 'Wina3', service: 'Airtel Money', amount: 4030 }
-            ];
-
-            transactions = sampleData.map(t => ({
-                ...t,
-                revenue: t.amount * serviceRevenue[t.service],
-                tax: t.amount * serviceTaxRates[t.service],
-                afterTax: t.amount * (1 - serviceTaxRates[t.service])
-            }));
-
-            transactionCounter = 20;
-        }
-
-        // Generate Transaction ID
-        function generateTransactionId() {
-            transactionCounter++;
-            return 'WB' + String(transactionCounter).padStart(7, '0');
-        }
-
-        // Auto-generate Transaction ID on page load
+        // Initialize dropdowns on page load
         document.addEventListener('DOMContentLoaded', function () {
-            initializeTransactions();
-            document.getElementById('transactionId').value = generateTransactionId();
+            const boothSelect = document.getElementById('mobileBooth');
+            
+            // Automatically generate the dropdown options based on the dictionary
+            Object.keys(boothLocations).forEach(booth => {
+                boothSelect.insertAdjacentHTML('beforeend', `<option value="${booth}">${booth}</option>`);
+            });
+
             updateBoothServices();
+            document.getElementById('transactionId').value = 'Pending Server...';
         });
 
         // Update services based on booth selection
@@ -555,76 +498,57 @@
             }
         });
 
-        // Calculate Transaction
-        function calculateTransaction() {
-            const booth = document.getElementById('mobileBooth').value;
-            const service = document.getElementById('service').value;
-            const amount = parseFloat(document.getElementById('transactionAmount').value);
+// Calculate Transaction and send to Server
+async function calculateTransaction() {
+    const booth = document.getElementById('mobileBooth').value;
+    const service = document.getElementById('service').value;
+    const amount = parseFloat(document.getElementById('transactionAmount').value);
 
-            if (!booth || !service || !amount || amount <= 0) {
-                alert('Please fill in all fields with valid values.');
-                return;
-            }
+    // 1. Validate input
+    if (!booth || !service || !amount || amount <= 0) {
+        alert('Please fill in all fields with valid values.');
+        return;
+    }
 
-            const revenueRate = serviceRevenue[service];
-            const taxRate = serviceTaxRates[service];
-            const revenue = amount * revenueRate;
-            const tax = amount * taxRate;
-            const afterTax = amount - tax;
-            const transactionId = document.getElementById('transactionId').value;
+    try {
+        // 2. Send the data to your Node.js server via a POST request
+        const response = await fetch('http://localhost:3000/api/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ booth, service, amount })
+        });
 
-            // Check cumulative limits
-            const serviceTotal = transactions
-                .filter(t => t.service === service)
-                .reduce((sum, t) => sum + t.amount, 0);
+        const data = await response.json();
 
-            const limit = serviceLimits[service];
-            const remaining = limit - serviceTotal;
-
-            if (amount > remaining) {
-                alert(` Insufficient credit for ${service}!\nRemaining: ZMW ${remaining.toFixed(2)}\nRequested: ZMW ${amount.toFixed(2)}`);
-                return;
-            }
-
-            // Add transaction
-            const newTransaction = {
-                id: transactionId,
-                booth: booth,
-                location: boothLocations[booth],
-                service: service,
-                amount: amount,
-                revenue: revenue,
-                tax: tax,
-                afterTax: afterTax,
-                revenueRate: revenueRate
-            };
-
-            transactions.push(newTransaction);
-
-            // Display result
-            const resultDiv = document.getElementById('transactionResult');
-            resultDiv.style.display = 'block';
-            document.getElementById('resultDetails').innerHTML = `
-                <div class="result-item"><span>Transaction ID</span><span>${transactionId}</span></div>
-                <div class="result-item"><span>Mobile Booth</span><span>${booth}</span></div>
-                <div class="result-item"><span>Location</span><span>${boothLocations[booth]}</span></div>
-                <div class="result-item"><span>Service</span><span>${service}</span></div>
-                <div class="result-item"><span>Revenue Per Kwacha</span><span>${revenueRate}</span></div>
-                <div class="result-item"><span>Transaction Amount</span><span>ZMW ${amount.toFixed(2)}</span></div>
-                <div class="result-item"><span>Revenue Generated</span><span>ZMW ${revenue.toFixed(2)}</span></div>
-                <div class="result-item"><span>Tax (${(taxRate * 100).toFixed(1)}%)</span><span>ZMW ${tax.toFixed(2)}</span></div>
-                <div class="result-item"><span>Amount After Tax</span><span>ZMW ${afterTax.toFixed(2)}</span></div>
-                <div class="result-item"><span>Remaining Limit</span><span>ZMW ${(remaining - amount).toFixed(2)}</span></div>
-            `;
-
-            // Generate new Transaction ID
-            document.getElementById('transactionId').value = generateTransactionId();
-            document.getElementById('transactionAmount').value = '';
-
-            // Scroll to result
-            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!response.ok) {
+            alert(data.error || 'Transaction failed');
+            return;
         }
 
+        // 3. Display the digital receipt using the Transaction ID generated by the database
+        const resultDiv = document.getElementById('transactionResult');
+        resultDiv.style.display = 'block';
+        document.getElementById('resultDetails').innerHTML = `
+            <div class="result-item"><span>Transaction ID</span><span>${data.id}</span></div>
+            <div class="result-item"><span>Mobile Booth</span><span>${booth}</span></div>
+            <div class="result-item"><span>Location</span><span>${boothLocations[booth]}</span></div>
+            <div class="result-item"><span>Service</span><span>${service}</span></div>
+            <div class="result-item"><span>Transaction Amount</span><span>ZMW ${amount.toFixed(2)}</span></div>
+            <div class="result-item"><span>Status</span><span style="color:#4CAF50">Saved to Database</span></div>
+        `;
+
+        // 4. Reset the form for the next customer
+        document.getElementById('transactionAmount').value = '';
+        document.getElementById('transactionId').value = 'Generated by Server...'; 
+        
+        // Scroll down to the result
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (error) {
+        console.error("Network error:", error);
+        alert("Could not connect to the server. Make sure your Node.js server is running in the terminal!");
+    }
+}
         // Add event listeners
         document.getElementById('mobileBooth').addEventListener('change', function () {
             updateBoothServices();

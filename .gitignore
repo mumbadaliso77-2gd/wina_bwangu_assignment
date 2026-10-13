@@ -1,3 +1,12 @@
+# Environment Variables & Secrets 
+.env
+.env.*
+
+# Node.js dependencies & logs
+node_modules/
+*.log
+npm-debug.log*
+
 # Visual Studio Code settings
 .vscode/
 
@@ -8,7 +17,3 @@
 # Operating system junk files
 .DS_Store
 Thumbs.db
-
-# Node.js dependencies (keep out of Git!)
-node_modules/
-*.log
